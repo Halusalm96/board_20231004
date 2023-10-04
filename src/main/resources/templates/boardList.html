@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>번호</th>
+            <th>작성자</th>
+            <th>제목</th>
+            <th>내용</th>
+            <th>비번</th>
+        </tr>
+        <tr th:each="board:${boardList}">
+            <td th:text="${board.id}" th:href="@{|/board/${board.id}|}" th:name="id"></td>
+            <td th:text="${board.boardWriter}"></td>
+            <td th:text="${board.boardTitle}"></td>
+            <td th:text="${board.boardContents}"></td>
+            <td th:text="${board.boardPassword}"></td>
+            <td th:onclick="board_detail([[${board.id}]])">조회</td>
+        </tr>
+    </table>
+</body>
+<script th:inline="javascript">
+    const board_detail = (id) => {
+        location.href =`/board/{id}`;
+    }
+</script>
+</html>
