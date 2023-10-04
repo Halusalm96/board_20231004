@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <th:block th:replace="~{component/config :: config}"></th:block>
 </head>
 <body>
-    <table>
-        <tr>
-            <th>번호</th>
-            <th>작성자</th>
-            <th>제목</th>
-            <th>내용</th>
-            <th>비번</th>
-            <th>날짜 및 시간</th>
-        </tr>
-        <tr th:each="board:${boardList}">
-            <td th:text="${board.id}" th:href="@{|/board/${board.id}|}" th:name="id"></td>
-            <td th:text="${board.boardWriter}"></td>
-            <td th:text="${board.boardTitle}"></td>
-            <td th:text="${board.boardContents}"></td>
-            <td th:text="${board.boardPassword}"></td>
-            <td th:text="${board.createdAt}"></td>
-            <td th:onclick="board_detail([[${board.id}]])">조회</td>
-        </tr>
-    </table>
+<div th:replace="~{component/header :: header}"></div>
+<div th:replace="~{component/nav :: nav}"></div>
+
+<div class="container mt-5 mb-5">
+    <!-- 화면에 보여질 내용이 들어갈 부분 -->
+    <div class="container" id="board-list">
+        <table class="table table-striped table-hover text-center">
+            <tr>
+                <th>id</th>
+                <th>title</th>
+                <th>writer</th>
+                <th>date</th>
+                <th>hits</th>
+            </tr>
+            <tr th:each="board: ${boardList}">
+                <td th:text="${board.id}"></td>
+                <td><a th:href="@{|/board/${board.id}|}" th:text="${board.boardTitle}"></a></td>
+                <td th:text="${board.boardWriter}"></td>
+                <td th:text="${board.createdAt}"></td>
+                <td th:text="${board.boardHits}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div th:replace="~{component/footer :: footer}"></div>
+
 </body>
-<script th:inline="javascript">
-    const board_detail = (id) => {
-        location.href =`/board/{id}`;
-    }
-</script>
 </html>

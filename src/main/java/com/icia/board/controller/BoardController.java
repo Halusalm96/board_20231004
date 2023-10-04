@@ -18,30 +18,31 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/board/save")
-    public String boardSave(){
+    public String boardSave() {
         return "/boardSave";
     }
+
     @PostMapping("/board/save")
-    public String Save(@ModelAttribute BoardDTO boardDTO, Model model){
+    public String Save(@ModelAttribute BoardDTO boardDTO, Model model) {
         boardService.save(boardDTO);
         List<BoardDTO> boardDTOList = boardService.findAll();
-        model.addAttribute("boardList",boardDTOList);
+        model.addAttribute("boardList", boardDTOList);
         return "/boardList";
     }
+
     @GetMapping("/board")
     public String boardList(Model model) {
         List<BoardDTO> boardDTOList = boardService.findAll();
-        model.addAttribute("boardList",boardDTOList);
+        model.addAttribute("boardList", boardDTOList);
         return "/boardList";
     }
+
     @GetMapping("/board/{id}")
-    public String boardDetail(@PathVariable Long id, Model model){
-        try{
-            BoardDTO boardDTO = boardService.findById(id);
-            model.addAttribute("boardDetail",boardDTO);
-            return "/boardDetail";
-        }catch (Exception e) {
-            return "/NotFound";
-        }
+    public String boardDetail(@PathVariable Long id, Model model) {
+        BoardDTO boardDTO = boardService.findById(id);
+        boardService.increaseHits(id);
+        model.addAttribute("boardDetail", boardDTO);
+        return "/boardDetail";
+
     }
 }

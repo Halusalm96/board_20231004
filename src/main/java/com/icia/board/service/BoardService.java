@@ -5,6 +5,7 @@ import com.icia.board.entity.BoardEntity;
 import com.icia.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
@@ -22,7 +23,6 @@ public class BoardService {
         BoardEntity boardEntity = BoardEntity.toBoardEntity(boardDTO);
         boardRepository.save(boardEntity);
     }
-
     public List<BoardDTO> findAll() {
         List<BoardEntity> boardEntityList = boardRepository.findAll();
         List<BoardDTO> boardDTOList = new ArrayList<>();
@@ -34,7 +34,6 @@ public class BoardService {
 //        }
         return boardDTOList;
     }
-
     public BoardDTO findById(Long id) {
         Optional<BoardEntity> boardEntityId = boardRepository.findById(id);
         if(boardEntityId.isPresent()) {
@@ -43,5 +42,16 @@ public class BoardService {
         }else {
             return null;
         }
+    }
+
+    /**
+     * 서비스 클래스 메서드에서 @Transactional 붙이는 경우
+     * 1. jpql로 작성한 메서드 호출할 때
+     * 2. 부모엔티티에서 자식 엔티티를 바로 호출할 때
+     */
+
+    @Transactional
+    public void increaseHits(Long id){
+        boardRepository.increaseHits(id);
     }
 }
