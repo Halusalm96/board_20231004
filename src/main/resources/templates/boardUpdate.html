@@ -32,20 +32,20 @@
     const boardHits = document.querySelector('[name="boardHits"]').value;
     const boardContents = document.querySelector('[name="boardContents"]').value;
     axios({
-      method:"put",
-      url:`/board/detail/${id}`,
-      date:{
-        id,
-        boardContents,
-        boardPassword,
-        boardHits,
-        boardTitle,
-        boardWriter
+      method: "put",
+      url: `/board/${id}`,
+      data: {
+        id: id,
+        boardTitle: boardTitle,
+        boardWriter: boardWriter,
+        boardContents: boardContents,
+        boardHits: boardHits,
+        boardPassword: boardPassword
       }
     }).then(res => {
-      location.href = `/board/detail/${id}`;
+      location.href = `/board/${id}`;
     }).catch(err => {
-      alert("수정 실패");
+      alert("수정 실패!");
     });
   }
 </script>

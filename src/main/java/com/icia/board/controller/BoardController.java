@@ -76,9 +76,9 @@ public class BoardController {
 //        return new ResponseEntity<>(HttpStatus.OK);
 //    }
 
-//    @PutMapping("/board/detail/${id}")
-//    public ResponseEntity update(@RequestBody BoardDTO boardDTO) {
-//        boardService.update(boardDTO);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+    @PutMapping("/board/detail/${id}")
+    public ResponseEntity update(@RequestBody BoardDTO boardDTO) {
+        boardService.update(boardDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
