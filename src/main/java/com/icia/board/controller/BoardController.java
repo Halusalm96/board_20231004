@@ -43,6 +43,11 @@ public class BoardController {
         boardService.increaseHits(id);
         model.addAttribute("boardDetail", boardDTO);
         return "/boardDetail";
-
     }
+
+//    @GetMapping("/board/update/{id")
+//    public String boardUpdate(@PathVariable Long id, Model model) {
+//
+//        return "/boardUpdate";
+//    }
 }
