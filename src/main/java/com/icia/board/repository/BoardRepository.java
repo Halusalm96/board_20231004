@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<BoardEntity,Long> {
 
-    Optional<BoardEntity> findById(Long id);
+//    Optional<BoardEntity> findById(Long id);
     @Modifying
     @Query(value = "update BoardEntity b set b.boardHits=b.boardHits+1 where b.id=:id")
 //    @Query(value = "update board_table set board_hits=board_hits+1 where id=:id", nativeQuery = true)

@@ -2,15 +2,13 @@ package com.icia.board.dto;
 
 import com.icia.board.entity.BoardEntity;
 import com.icia.board.util.UtilClass;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import lombok.*;
 
 @Setter
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class BoardDTO {
     private Long id;
@@ -22,17 +20,26 @@ public class BoardDTO {
     private int boardHits;
 
     public static BoardDTO toBoardDTO(BoardEntity boardEntity) {
-        BoardDTO boardDTO = new BoardDTO();
-        boardDTO.setId(boardEntity.getId());
-        boardDTO.setBoardWriter(boardEntity.getBoardWriter());
-        boardDTO.setBoardTitle(boardEntity.getBoardTitle());
-        boardDTO.setBoardPassword(boardEntity.getBoardPassword());
-        boardDTO.setBoardContents(boardEntity.getBoardContents());
-        boardDTO.setBoardHits(boardEntity.getBoardHits());
+//        BoardDTO boardDTO = new BoardDTO();
+//        boardDTO.setId(boardEntity.getId());
+//        boardDTO.setBoardWriter(boardEntity.getBoardWriter());
+//        boardDTO.setBoardTitle(boardEntity.getBoardTitle());
+//        boardDTO.setBoardPassword(boardEntity.getBoardPassword());
+//        boardDTO.setBoardContents(boardEntity.getBoardContents());
+//        boardDTO.setBoardHits(boardEntity.getBoardHits());
 //        boardDTO.setCreatedAt(boardEntity.getCreatedAt());
 //        String formattedDate = boardEntity.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 //        boardDTO.setCreatedAt(formattedDate);
-        boardDTO.setCreatedAt((UtilClass.dateTimeFormat(boardEntity.getCreatedAt())));
+//        boardDTO.setCreatedAt((UtilClass.dateTimeFormat(boardEntity.getCreatedAt())));
+        BoardDTO boardDTO = BoardDTO.builder()
+                .id(boardEntity.getId())
+                .boardContents(boardEntity.getBoardContents())
+                .boardHits(boardEntity.getBoardHits())
+                .boardPassword(boardEntity.getBoardPassword())
+                .boardWriter(boardEntity.getBoardWriter())
+                .boardTitle(boardEntity.getBoardTitle())
+                .createdAt(UtilClass.dateTimeFormat(boardEntity.getCreatedAt()))
+                .build();
         return boardDTO;
 
     }

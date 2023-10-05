@@ -4,6 +4,7 @@ import com.icia.board.dto.BoardDTO;
 import com.icia.board.service.BoardService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,17 +26,26 @@ public class BoardController {
     }
 
     @PostMapping("/board/save")
-    public String Save(@ModelAttribute BoardDTO boardDTO, Model model) {
+    public String Save(@ModelAttribute BoardDTO boardDTO) {
         boardService.save(boardDTO);
-        List<BoardDTO> boardDTOList = boardService.findAll();
-        model.addAttribute("boardList", boardDTOList);
-        return "/boardList";
+        return "/index";
     }
 
     @GetMapping("/board")
-    public String boardList(Model model) {
-        List<BoardDTO> boardDTOList = boardService.findAll();
+    public String boardList(Model model,@RequestParam(value = "page", required = false,defaultValue = "1") int page) {
+        Page<BoardDTO> boardDTOList = boardService.findAll(page);
         model.addAttribute("boardList", boardDTOList);
+        // 목록 하단에 보여줄 페이지 번호
+        int blockLimit = 3;
+        int startPage = (((int) (Math.ceil((double) page / blockLimit))) - 1) * blockLimit + 1;
+        int endPage = ((startPage + blockLimit - 1) < boardDTOList.getTotalPages()) ? startPage + blockLimit - 1 : boardDTOList.getTotalPages();
+//        if ((startPage + blockLimit - 1) < boardDTOS.getTotalPages()) {
+//            endPage = startPage + blockLimit - 1;
+//        } else {
+//            endPage = boardDTOS.getTotalPages();
+//        }
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
         return "/boardList";
     }
 
@@ -66,9 +76,9 @@ public class BoardController {
 //        return new ResponseEntity<>(HttpStatus.OK);
 //    }
 
-    @PutMapping("/board/detail/${id}")
-    public ResponseEntity update(@RequestBody BoardDTO boardDTO) {
-        boardService.update(boardDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+//    @PutMapping("/board/detail/${id}")
+//    public ResponseEntity update(@RequestBody BoardDTO boardDTO) {
+//        boardService.update(boardDTO);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 }
