@@ -42,6 +42,12 @@
                 </td>
             </tr>
         </table>
+        <form method="post">
+            <input type="text" name="commentWriter" placeholder="작성자">
+            <input type="text" name="commentContents" placeholder="댓글">
+            <input type="button" value="저장" onclick="comment_fn()">
+        </form>
+
         <div id="btn-area">
             <button class="btn btn-primary" onclick="list_fn()">목록</button>
             <!-- 수정 또는 삭제 버튼을 클릭하면 비밀전호를 입력하는 input 창이 노출되고
@@ -82,9 +88,9 @@
         passwordForm.style.display = "block";
     }
     const updatePass_fn = () => {
-        const boardPassword = [[${boardDetail.boardPassword}]];
+        const boardPassword = [[${board.boardPassword}]];
         const password = document.getElementById("password").value;
-        const id = [[${boardDetail.id}]]
+        const id = [[${board.id}]]
         if(boardPassword == password) {
             location.href =`/board/update/${id}`;
         }else {
@@ -96,9 +102,9 @@
         passwordForm.style.display = "block";
     }
     const deletePass_fn = () => {
-        const boardPassword = [[${boardDetail.boardPassword}]];
+        const boardPassword = [[${board.boardPassword}]];
         const password = document.getElementById("passwordDel").value;
-        const id = [[${boardDetail.id}]]
+        const id = [[${boardDetail.id}]];
         if(boardPassword == password) {
             location.href =`/board/delete/${id}`;
         }else {
@@ -132,5 +138,9 @@
     //         alert("비밀번호가 일치하지 않습니다.");
     //     }
     // }
+    const comment_fn = () => {
+        const id = [[${board.id}]];
+        location.href = `/comment/save/${id}`;
+    }
 </script>
 </html>

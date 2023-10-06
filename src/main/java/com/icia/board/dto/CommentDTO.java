@@ -9,8 +9,8 @@ import lombok.ToString;
 @ToString
 public class CommentDTO {
     private Long id;
-    private String comment_writer;
-    private String comment_contents;
+    private String commentWriter;
+    private String commentContents;
     private String board_id;
 
 }
