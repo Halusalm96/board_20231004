@@ -121,10 +121,10 @@ public class BoardTest {
         Optional<BoardEntity> boardEntityOptional = boardRepository.findById(54L);
         BoardEntity boardEntity = boardEntityOptional.get();
 
-        List<BoardFileEntity> boardFileEntities = boardEntity.getBoardFileEntityList();
-        boardFileEntities.forEach(boardFileEntity -> {
-            System.out.println(boardFileEntity.getOriginalFileName());
-            System.out.println(boardFileEntity.getStoredFileName());
-        });
+//        List<BoardFileEntity> boardFileEntities = boardEntity.getBoardFileEntityList();
+//        boardFileEntities.forEach(boardFileEntity -> {
+//            System.out.println(boardFileEntity.getOriginalFileName());
+//            System.out.println(boardFileEntity.getStoredFileName());
+//        });
     }
 }

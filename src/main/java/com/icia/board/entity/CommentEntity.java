@@ -19,15 +19,15 @@ public class CommentEntity {
     private String commentWriter;
     @Column(nullable = false, length = 200)
     private String commentContents;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id", referencedColumnName = "id")
     private BoardEntity boardEntity;
 
-    public static CommentEntity toCommentEntity (CommentDTO commentDTO) {
+    public static CommentEntity toEntity(BoardEntity boardEntity, CommentDTO commentDTO) {
         CommentEntity commentEntity = new CommentEntity();
-        commentEntity.setId(commentDTO.getId());
-        commentEntity.setCommentWriter(commentDTO.getCommentContents());
+        commentEntity.setCommentWriter(commentDTO.getCommentWriter());
         commentEntity.setCommentContents(commentDTO.getCommentContents());
+        commentEntity.setBoardEntity(boardEntity);
         return commentEntity;
     }
 }

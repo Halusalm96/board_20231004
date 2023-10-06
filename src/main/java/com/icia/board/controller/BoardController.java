@@ -1,8 +1,9 @@
 package com.icia.board.controller;
 
 import com.icia.board.dto.BoardDTO;
+import com.icia.board.dto.CommentDTO;
 import com.icia.board.service.BoardService;
-import lombok.Getter;
+import com.icia.board.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,6 +21,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final CommentService commentService;
 
     @GetMapping("/board/save")
     public String boardSave() {
@@ -55,13 +58,22 @@ public class BoardController {
                            @RequestParam(value = "type", required = false, defaultValue = "boardTitle") String type,
                            @RequestParam(value = "q", required = false, defaultValue = "") String q) {
         boardService.increaseHits(id);
-        BoardDTO boardDTO = boardService.findById(id);
-        model.addAttribute("board", boardDTO);
         model.addAttribute("page", page);
         model.addAttribute("type", type);
         model.addAttribute("q", q);
-        model.addAttribute("board",boardDTO);
-        return "/boardDetail";
+        try {
+            BoardDTO boardDTO = boardService.findById(id);
+            model.addAttribute("board", boardDTO);
+            List<CommentDTO> commentDTOList = commentService.findAll(id);
+            if (commentDTOList.size() > 0) {
+                model.addAttribute("commentList", commentDTOList);
+            } else {
+                model.addAttribute("commentList", null);
+            }
+            return "/boardDetail";
+        } catch (NoSuchElementException e) {
+            return "/NotFound";
+        }
     }
 
     @GetMapping("/board/update/{id}")

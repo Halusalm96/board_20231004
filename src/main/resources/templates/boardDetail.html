@@ -1,10 +1,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title>Title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 <body>
-<table>
     <div class="container">
         <table class="table table-hover">
             <tr>
@@ -42,11 +43,6 @@
                 </td>
             </tr>
         </table>
-        <form method="post">
-            <input type="text" name="commentWriter" placeholder="작성자">
-            <input type="text" name="commentContents" placeholder="댓글">
-            <input type="button" value="저장" onclick="comment_fn()">
-        </form>
 
         <div id="btn-area">
             <button class="btn btn-primary" onclick="list_fn()">목록</button>
@@ -71,9 +67,38 @@
                 <input type="password" id="password-de">
                 <button id="submitDelete" onclick="deletePass_fn()">확인</button>
             </div>
+            <div class="row g-2 mt-5" id="comment-write">
+                <div class="col">
+                    <input type="text" id="comment-writer" class="form-control" placeholder="작성자">
+                </div>
+                <div class="col-9">
+                    <input type="text" id="comment-contents" class="form-control" placeholder="내용">
+                </div>
+                <div class="d-grid col">
+                    <button class="btn btn-dark" onclick="comment_write()">작성</button>
+                </div>
+            </div>
+            <div class="container mt-5" id="comment-list">
+                <div th:if="${commentList == null}">
+                    <p>작성된 댓글이 없습니다.</p>
+                </div>
+                <div th:unless="${commentList == null}">
+                    <table class="table">
+                        <tr>
+                            <th>writer</th>
+                            <th>contents</th>
+                            <th>date</th>
+                        </tr>
+                        <tr th:each="comment: ${commentList}">
+                            <td th:text="${comment.commentWriter}"></td>
+                            <td th:text="${comment.commentContents}"></td>
+                            <td th:text="${comment.createdAt}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-</table>
 </body>
 <script th:inline="javascript">
     const list_fn = () => {
