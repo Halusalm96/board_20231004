@@ -32,28 +32,34 @@ public class BoardController {
     }
 
     @GetMapping("/board")
-    public String boardList(Model model,@RequestParam(value = "page", required = false,defaultValue = "1") int page) {
-        Page<BoardDTO> boardDTOList = boardService.findAll(page);
-        model.addAttribute("boardList", boardDTOList);
+    public String boardList(Model model, @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                            @RequestParam(value = "type", required = false, defaultValue = "boardTitle") String type,
+                            @RequestParam(value = "q", required = false, defaultValue = "") String q) {
+        Page<BoardDTO> boardDTOList = boardService.findAll(page, type, q);
         // 목록 하단에 보여줄 페이지 번호
         int blockLimit = 3;
         int startPage = (((int) (Math.ceil((double) page / blockLimit))) - 1) * blockLimit + 1;
         int endPage = ((startPage + blockLimit - 1) < boardDTOList.getTotalPages()) ? startPage + blockLimit - 1 : boardDTOList.getTotalPages();
-//        if ((startPage + blockLimit - 1) < boardDTOS.getTotalPages()) {
-//            endPage = startPage + blockLimit - 1;
-//        } else {
-//            endPage = boardDTOS.getTotalPages();
-//        }
+        model.addAttribute("boardList", boardDTOList);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        model.addAttribute("page", page);
+        model.addAttribute("type", type);
+        model.addAttribute("q", q);
         return "/boardList";
     }
 
     @GetMapping("/board/{id}")
-    public String boardDetail(@PathVariable("id") Long id, Model model) {
-        BoardDTO boardDTO = boardService.findById(id);
+    public String findById(@PathVariable("id") Long id, Model model,
+                           @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                           @RequestParam(value = "type", required = false, defaultValue = "boardTitle") String type,
+                           @RequestParam(value = "q", required = false, defaultValue = "") String q) {
         boardService.increaseHits(id);
-        model.addAttribute("boardDetail", boardDTO);
+        BoardDTO boardDTO = boardService.findById(id);
+        model.addAttribute("board", boardDTO);
+        model.addAttribute("page", page);
+        model.addAttribute("type", type);
+        model.addAttribute("q", q);
         return "/boardDetail";
     }
 
@@ -76,7 +82,7 @@ public class BoardController {
 //        return new ResponseEntity<>(HttpStatus.OK);
 //    }
 
-    @PutMapping("/board/detail/${id}")
+    @PutMapping("/board/detail/{id}")
     public ResponseEntity update(@RequestBody BoardDTO boardDTO) {
         boardService.update(boardDTO);
         return new ResponseEntity<>(HttpStatus.OK);

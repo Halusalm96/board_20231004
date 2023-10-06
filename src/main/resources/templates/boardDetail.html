@@ -64,6 +64,13 @@
 </table>
 </body>
 <script th:inline="javascript">
+    const list_fn = () => {
+        const page = [[${page}]]
+        const type = [[${type}]]
+        const q = [[${q}]]
+        location.href = `/board?page=${page}&type=${type}&q=${q}`;
+    }
+
     const update_fn = () => {
         const passwordForm = document.getElementById("password-update");
         passwordForm.style.display = "block";
