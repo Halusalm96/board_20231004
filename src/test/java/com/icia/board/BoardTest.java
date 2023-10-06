@@ -42,7 +42,11 @@ public class BoardTest {
     @DisplayName("게시글 테이트")
     public void saveData() {
         IntStream.rangeClosed(1, 50).forEach(i -> {
-            boardService.save(pageTest(i));
+            try {
+                boardService.save(pageTest(i));
+            }catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 

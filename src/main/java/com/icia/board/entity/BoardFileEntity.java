@@ -15,11 +15,18 @@ public class BoardFileEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(length = 100)
-    private String original_file_name;
+    private String originalFileName;
     @Column(length = 100)
-    private String stored_file_name;
-    @ManyToOne
+    private String storedFileName;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id", referencedColumnName = "id")
-    private BoardEntity board;
+    private BoardEntity boardEntity;
 
+    public static BoardFileEntity toSaveBoardFile(BoardEntity savedEntity, String originalFileName, String storedFileName) {
+        BoardFileEntity boardFileEntity = new BoardFileEntity();
+        boardFileEntity.setOriginalFileName(originalFileName);
+        boardFileEntity.setStoredFileName(storedFileName);
+        boardFileEntity.setBoardEntity(savedEntity);
+        return boardFileEntity;
+    }
 }
