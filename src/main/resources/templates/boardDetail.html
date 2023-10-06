@@ -9,31 +9,37 @@
         <table class="table table-hover">
             <tr>
                 <th>번호</th>
-                <td th:text="${boardDetail.id}"></td>
+                <td th:text="${board.id}"></td>
             </tr>
             <tr>
                 <th>작성자</th>
-                <td th:text="${boardDetail.boardWriter}"></td>
+                <td th:text="${board.boardWriter}"></td>
             </tr>
             <tr>
                 <th>제목</th>
-                <td th:text="${boardDetail.boardTitle}"></td>
+                <td th:text="${board.boardTitle}"></td>
             </tr>
             <tr>
                 <th>내용</th>
-                <td th:text="${boardDetail.boardContents}"></td>
+                <td th:text="${board.boardContents}"></td>
             </tr>
             <tr>
                 <th>비밀번호</th>
-                <td th:text="${boardDetail.boardPassword}" th:id="boardPassword"></td>
+                <td th:text="${board.boardPassword}" th:id="boardPassword"></td>
             </tr>
             <tr>
                 <th>시간</th>
-                <td th:text="${boardDetail.createdAt}"></td>
+                <td th:text="${board.createdAt}"></td>
             </tr>
             <tr>
                 <th>조횟수</th>
-                <td th:text="${boardDetail.boardHits}"></td>
+                <td th:text="${board.boardHits}"></td>
+            </tr>
+            <tr th:if="${board.fileAttached == 1}">
+                <th>image</th>
+                <td th:each="fileName: ${board.storedFileName}">
+                    <img th:src="@{|/upload/${fileName}}" width="200" height="200" alt="">
+                </td>
             </tr>
         </table>
         <div id="btn-area">

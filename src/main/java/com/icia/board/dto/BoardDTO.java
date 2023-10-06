@@ -45,6 +45,14 @@ public class BoardDTO {
                 .boardTitle(boardEntity.getBoardTitle())
                 .createdAt(UtilClass.dateTimeFormat(boardEntity.getCreatedAt()))
                 .build();
+        // 파일 첨부 여부에 따라 파일이름 가져가기
+        if (boardEntity.getFileAttached()==1){
+            boardDTO.setOriginalFileName(boardEntity.getBoardFileEntityList().get(0).getOriginalFileName());
+            boardDTO.setStoredFileName(boardEntity.getBoardFileEntityList().get(0).getStoredFileName());
+            boardDTO.setFileAttached(1);
+        }else{
+            boardDTO.setFileAttached(0);
+        }
         return boardDTO;
 
     }

@@ -60,6 +60,7 @@ public class BoardController {
         model.addAttribute("page", page);
         model.addAttribute("type", type);
         model.addAttribute("q", q);
+        model.addAttribute("board",boardDTO);
         return "/boardDetail";
     }
 

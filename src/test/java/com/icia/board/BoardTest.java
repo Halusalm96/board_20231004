@@ -2,6 +2,7 @@ package com.icia.board;
 
 import com.icia.board.dto.BoardDTO;
 import com.icia.board.entity.BoardEntity;
+import com.icia.board.entity.BoardFileEntity;
 import com.icia.board.repository.BoardRepository;
 import com.icia.board.service.BoardService;
 import com.icia.board.util.UtilClass;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 @SpringBootTest
@@ -110,5 +112,19 @@ public class BoardTest {
 //        boardEntitiesList.forEach(boardEntity -> {
 //            System.out.println(BoardDTO.toBoardDTO(boardEntity));
 //        });
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("참조관계 확인")
+    public void findTest() {
+        Optional<BoardEntity> boardEntityOptional = boardRepository.findById(54L);
+        BoardEntity boardEntity = boardEntityOptional.get();
+
+        List<BoardFileEntity> boardFileEntities = boardEntity.getBoardFileEntityList();
+        boardFileEntities.forEach(boardFileEntity -> {
+            System.out.println(boardFileEntity.getOriginalFileName());
+            System.out.println(boardFileEntity.getStoredFileName());
+        });
     }
 }
